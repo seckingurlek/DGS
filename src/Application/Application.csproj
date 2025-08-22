@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Deposit - Copy\**" />
+    <Compile Remove="Features\DepositRequest - Copy\**" />
+    <Compile Remove="Features\Landlord - Copy\**" />
+    <Compile Remove="Features\Property - Copy\**" />
+    <Compile Remove="Features\Tenant - Copy\**" />
+    <EmbeddedResource Remove="Features\Deposit - Copy\**" />
+    <EmbeddedResource Remove="Features\DepositRequest - Copy\**" />
+    <EmbeddedResource Remove="Features\Landlord - Copy\**" />
+    <EmbeddedResource Remove="Features\Property - Copy\**" />
+    <EmbeddedResource Remove="Features\Tenant - Copy\**" />
+    <None Remove="Features\Deposit - Copy\**" />
+    <None Remove="Features\DepositRequest - Copy\**" />
+    <None Remove="Features\Landlord - Copy\**" />
+    <None Remove="Features\Property - Copy\**" />
+    <None Remove="Features\Tenant - Copy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Auths\" />
+    <Folder Include="Features\DepositRequests\Rules\" />
+    <Folder Include="Features\DepositRequests\Queries\" />
+    <Folder Include="Features\Landlords\Commands\" />
+    <Folder Include="Features\Landlords\Constants\" />
+    <Folder Include="Features\Landlords\Models\" />
+    <Folder Include="Features\Landlords\Rules\" />
+    <Folder Include="Features\Landlords\Queries\" />
+    <Folder Include="Features\Landlords\Profiles\" />
+    <Folder Include="Services\AuthService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.Persistence\Core.Persistence.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>

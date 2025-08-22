@@ -1,0 +1,10 @@
+Set-Content .gitignore @"
+# Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+"@
