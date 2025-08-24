@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Services.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Context;
+using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,13 @@ namespace Persistence
             services.AddDbContext<BaseDbContext>(options =>
                                                      options.UseSqlServer(
                                                          configuration.GetConnectionString("DGSConnectionString")));
+
+            services.AddScoped<IDepositRepository, DepositRepository>();
+            services.AddScoped<IDepositRequestRepository, DepositRequestRepository>();
+            services.AddScoped<ILandlordRepository, LandlordRepository>();
+            services.AddScoped<IPropertyRepository, PropertyRepository>();
+            services.AddScoped<ITenantRepository, TenantRepository>();
+            
 
             return services;
         }

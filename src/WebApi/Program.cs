@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
 using System;
 using Persistence;
+using Application;
+using Mailing;
+using Mailing.MailKitImplementations;
+
 namespace WebApi
 {
     public class Program
@@ -14,6 +18,11 @@ namespace WebApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddScoped<IMailService, MailKitMailService>();
+            builder.Services.AddScoped<MailManager>();
+
+            builder.Services.AddApplicationService();
+            builder.Services.AddPersistenceServices(builder.Configuration);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

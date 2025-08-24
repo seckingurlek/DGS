@@ -6,8 +6,22 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-   public class DepositRequest :Entity
+    public enum DepositRequestStatus
     {
+        Pending,   // Yeni gönderildi
+        Accepted,  // Tenant kabul etti
+        Rejected   // Tenant reddetti
+    }
+    public class DepositRequest :Entity
+    {
+        public DepositRequest()
+        {
+            Property = new Property();
+            Tenant = new Tenant();
+            Landlord = new Landlord();
+            TenantEmail = string.Empty;
+            TenantPhone = string.Empty;
+        }
         public Guid PropertyId { get; set; }
         public virtual Property Property { get; set; }
 
@@ -23,7 +37,7 @@ namespace Domain.Entities
 
         public DateTime RequestDate { get; set; } = DateTime.UtcNow;
         public bool? IsAccepted { get; set; } = null;
-
+        public DepositRequestStatus Status { get; set; } = DepositRequestStatus.Pending;
         public DateTime RentalStartDate { get; set; }
         public DateTime RentalEndDate { get; set; }
     }

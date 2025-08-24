@@ -14,9 +14,12 @@ namespace Application.Features.DepositRequests.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<DepositRequest,CreateDepositRequestDto>().ReverseMap();
+            CreateMap<CreateDepositRequestCommand,CreateDepositRequestDto>().ReverseMap();
             CreateMap<DepositRequest,CreateDepositRequestCommand>().ReverseMap();
-
+            // DepositRequest -> UpdateDepositRequestStatusDto
+            CreateMap<DepositRequest, UpdateDepositRequestStatusDto>()
+                .ForMember(dest => dest.IsAccepted, opt => opt.MapFrom(src => src.IsAccepted))
+                .ReverseMap(); // DTO -> Entity
         }
     }
 }

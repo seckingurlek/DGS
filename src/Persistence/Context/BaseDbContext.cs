@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Security.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,14 @@ namespace Persistence.Context
     public class BaseDbContext : DbContext
     {
         protected  IConfiguration Configuration { get; set; }
+       
+
+
+
+        public BaseDbContext(DbContextOptions<BaseDbContext> dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
+        {
+            Configuration = configuration;
+        }
         public DbSet<Deposit> Deposits { get; set; }
         public DbSet<DepositRequest> DepositRequests { get; set; }
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
@@ -24,20 +31,6 @@ namespace Persistence.Context
 
 
 
-        public BaseDbContext(DbContextOptions<BaseDbContext> dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
-        {
-            Configuration = configuration;
-        }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connectionString = Configuration.GetConnectionString("DGSConnectionString");
-                optionsBuilder.UseSqlServer(connectionString);
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

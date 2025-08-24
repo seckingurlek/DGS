@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Mailing.MailKitImplementations
 {
@@ -53,5 +55,6 @@ namespace Mailing.MailKitImplementations
             smtp.Send(email);
             smtp.Disconnect(true);
         }
+
     }
 }
