@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Auths\" />
+    <Folder Include="Features\Auths\NewFolder\" />
     <Folder Include="Features\DepositRequests\Queries\" />
     <Folder Include="Features\Landlords\Commands\" />
     <Folder Include="Features\Landlords\Constants\" />
@@ -44,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core.Security\Core.Security.csproj" />
     <ProjectReference Include="..\..\CrossCuttingConcerns\CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\Core\Core.Persistence\Core.Persistence.csproj" />
     <ProjectReference Include="..\Core\Mailing\Mailing.csproj" />

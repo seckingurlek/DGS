@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.Features.Auths.Dtos
 {
-    public class OperationClaim : Entity
+    internal class RegisteredDto
     {
-        public string Name { get; set; }
     }
 }

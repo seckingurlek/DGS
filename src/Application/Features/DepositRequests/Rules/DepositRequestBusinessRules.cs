@@ -26,9 +26,9 @@ namespace Application.Features.DepositRequests.Rules
             }
         }
 
-        public async Task LandlordMustExist(Guid LandlordId)
+        public async Task LandlordMustExist(string LandlordIdentityNumber)
         {
-            var landLord = await _landlordRepository.GetAsync(l=>l.Id == LandlordId);
+            var landLord = await _landlordRepository.GetAsync(l=>l.IdentityNumber == LandlordIdentityNumber);
             if (landLord == null)
             {
                 throw new Exception("Ev sahibi bulunamadı.");

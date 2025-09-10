@@ -20,13 +20,13 @@ namespace WebApi.Controllers.DepositRequestController
         }
 
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(Guid id, [FromQuery] bool isAccepted)
+        [HttpPut("{identityNumber}/status")]
+        public async Task<IActionResult> UpdateStatus(string identityNumber, [FromQuery] bool isAccepted)
         {
 
             var updateDepositRequestStatusCommand = new UpdateDepositRequestStatusCommand
             {
-                Id = id,
+                TenantIdentityNumber = identityNumber,
                 IsAccepted = isAccepted
             };
 

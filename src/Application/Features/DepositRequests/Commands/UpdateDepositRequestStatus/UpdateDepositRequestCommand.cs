@@ -18,7 +18,7 @@ namespace Application.Features.DepositRequests.Commands.UpdateDepositRequest
         public UpdateDepositRequestStatusCommand() { }
 
 
-        public Guid Id { get; set; }
+        public string TenantIdentityNumber { get; set; }
         public bool IsAccepted { get; set; }
 
         public class UpdateDepositRequestStatusCommandHandler :IRequestHandler<UpdateDepositRequestStatusCommand , UpdateDepositRequestStatusDto>
@@ -35,7 +35,7 @@ namespace Application.Features.DepositRequests.Commands.UpdateDepositRequest
 
             public async Task<UpdateDepositRequestStatusDto> Handle(UpdateDepositRequestStatusCommand request, CancellationToken cancellationToken)
             {
-                var depositRequest = await _depositRequestRepository.GetAsync(d => d.Id == request.Id);
+                var depositRequest = await _depositRequestRepository.GetAsync(d => d.TenantIdentityNumber  == request.TenantIdentityNumber);
                 if (depositRequest == null)
                 {
                     throw new ArgumentException("Deposit request bulunamadı.");

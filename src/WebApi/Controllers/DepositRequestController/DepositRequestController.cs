@@ -19,6 +19,10 @@ namespace WebApi.Controllers.DepositRequestController
         [HttpPost]
         public async Task<IActionResult> AddDepositRequest([FromBody] CreateDepositRequestCommand depositRequestCommand)
         {
+            if (depositRequestCommand == null)
+            {
+                return BadRequest("deposit request bulunamadı");
+            }
             var result = await _mediator.Send(depositRequestCommand);
             return Ok(result);
         }

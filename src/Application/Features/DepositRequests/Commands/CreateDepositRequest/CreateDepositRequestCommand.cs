@@ -17,18 +17,14 @@ namespace Application.Features.DepositRequests.Commands.CreateDepositRequest
 {
     public class CreateDepositRequestCommand : IRequest<CreateDepositRequestDto>
     {
-        public CreateDepositRequestCommand()
-        {
-            TenantEmail = string.Empty;
-            TenantName = string.Empty;
-            TenantPhoneNumber = string.Empty;
-        }
-        public Guid Id { get; set; }
+
+        public string TenantIdentityNumber { get; set; }
         public string TenantEmail { get; set; } 
         public string TenantPhoneNumber { get; set; }
         public string TenantName { get; set; }
-        public decimal DepositAmount { get; set; }   
-        public Guid LandlordId { get; set; }
+        public decimal DepositAmount { get; set; }
+        public string LandlordIdentityNumber { get; set; }
+        public Guid PropertyId { get; set; }
         public class CreateDepositRequestCommandHandler : IRequestHandler<CreateDepositRequestCommand, CreateDepositRequestDto>
         {
 
@@ -51,7 +47,7 @@ namespace Application.Features.DepositRequests.Commands.CreateDepositRequest
 
             public async Task<CreateDepositRequestDto> Handle(CreateDepositRequestCommand request, CancellationToken cancellationToken)
             {
-                await _depositBusinessRules.LandlordMustExist(request.LandlordId);
+                await _depositBusinessRules.LandlordMustExist(request.LandlordIdentityNumber);
                 await _depositBusinessRules.DepositAmountMustBeGreaterThanZero(request.DepositAmount);
                 await _depositBusinessRules.TenantEmailAndPhoneCanNotBeEmpty(request.TenantEmail, request.TenantPhoneNumber);
 

@@ -11,9 +11,10 @@ namespace Application.Features.DepositRequests.Commands.CreateDepositRequest
     {
         public CreateDepositRequestCommandValidator()
         {
-            RuleFor(c => c.Id.ToString("N")) // "N" formatı: "34f8e0a7d5b4"
-                .NotEmpty().WithMessage("Id boş olamaz.")
-                .Length(11).WithMessage("Id 11 karakter uzunluğunda olmalıdır.");
+            RuleFor(c => c.LandlordIdentityNumber)
+                           .NotEmpty().WithMessage("Kimlik numarası boş olamaz.")
+                           .Length(11).WithMessage("Kimlik numarası 11 karakter uzunluğunda olmalıdır.")
+                           .Matches("^[0-9]+$").WithMessage("Kimlik numarası sadece rakamlardan oluşmalıdır.");
         }
     }
 }

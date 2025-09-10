@@ -10,7 +10,7 @@ namespace Application.Features.DepositRequests.Dtos
     {
         public Guid PropertyId { get; set; }
         public string TenantPhoneNumber { get; set; }
-
+        public string TenantIdentityNumber { get; set; }
 
         public string? TenantFirstName { get; set; }
         public string? TenantLastName { get; set; }

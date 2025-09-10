@@ -14,16 +14,10 @@ namespace Domain.Entities
     }
     public class DepositRequest :Entity
     {
-        public DepositRequest()
-        {
-            Property = new Property();
-            Tenant = new Tenant();
-            Landlord = new Landlord();
-            TenantEmail = string.Empty;
-            TenantPhone = string.Empty;
-        }
+       
         public Guid PropertyId { get; set; }
         public virtual Property Property { get; set; }
+        public string TenantIdentityNumber { get; set; }
 
         public Guid LandlordId { get; set; }
         public virtual Landlord Landlord { get; set; }

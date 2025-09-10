@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Domain.Entities
 {
    public class Deposit :Entity
     {
-        public Deposit()
-        {
-            Property = new Property();
-            Tenant = new Tenant();
-            Landlord = new Landlord();
-        }
+      
         public Guid PropertyId { get; set; }
         public virtual Property Property { get; set; }
 

@@ -12,15 +12,15 @@ using Persistence.Context;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20250816135121_MakeIsAcceptedNullable")]
-    partial class MakeIsAcceptedNullable
+    [Migration("20250826151314_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -48,11 +48,11 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
+                    b.Property<string>("IdentityNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -153,6 +153,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("TenantEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -173,6 +176,23 @@ namespace Persistence.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("DepositRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepositAmount = 1000m,
+                            LandlordId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            PropertyId = new Guid("33333333-3333-3333-3333-333333333333"),
+                            RentalEndDate = new DateTime(2025, 9, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RentalStartDate = new DateTime(2025, 8, 26, 0, 0, 0, 0, DateTimeKind.Utc),
+                            RequestDate = new DateTime(2025, 8, 26, 15, 13, 14, 319, DateTimeKind.Utc).AddTicks(26),
+                            Status = 0,
+                            TenantEmail = "ayse@test.com",
+                            TenantId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            TenantPhone = "05551234567"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.EmailConfirmation", b =>
@@ -195,6 +215,32 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailConfirmations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.OperationClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OperationClaims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Property", b =>
@@ -228,9 +274,21 @@ namespace Persistence.Migrations
                     b.HasIndex("LandlordId");
 
                     b.ToTable("Properties");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Address = "Test Mah. 123",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepositAmount = 1000m,
+                            IsAvailable = true,
+                            LandlordId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Title = "Deneme Ev"
+                        });
                 });
 
-            modelBuilder.Entity("Security.Entities.OperationClaim", b =>
+            modelBuilder.Entity("Domain.Entities.UserOperationClaim", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -239,43 +297,28 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OperationClaims");
-                });
-
-            modelBuilder.Entity("Security.Entities.UserOperationClaim", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("OperationClaimId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OperationClaimId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("OperationClaimId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperationClaimId1");
+                    b.HasIndex("OperationClaimId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserOperationClaims");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            OperationClaimId = new Guid("55555555-5555-5555-5555-555555555555"),
+                            UserId = new Guid("11111111-1111-1111-1111-111111111111")
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Landlord", b =>
@@ -283,6 +326,21 @@ namespace Persistence.Migrations
                     b.HasBaseType("Domain.Entities.AppUser");
 
                     b.HasDiscriminator().HasValue("Landlord");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "ali@test.com",
+                            EmailConfirmed = true,
+                            FirstName = "Ali",
+                            IdentityNumber = "12345678901",
+                            LastName = "Yılmaz",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            PhoneNumber = "05551234567"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Tenant", b =>
@@ -290,6 +348,21 @@ namespace Persistence.Migrations
                     b.HasBaseType("Domain.Entities.AppUser");
 
                     b.HasDiscriminator().HasValue("Tenant");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "ayse@test.com",
+                            EmailConfirmed = true,
+                            FirstName = "Ayşe",
+                            IdentityNumber = "10987654321",
+                            LastName = "Demir",
+                            PasswordHash = new byte[0],
+                            PasswordSalt = new byte[0],
+                            PhoneNumber = "05559876543"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Deposit", b =>
@@ -357,23 +430,28 @@ namespace Persistence.Migrations
                     b.Navigation("Landlord");
                 });
 
-            modelBuilder.Entity("Security.Entities.UserOperationClaim", b =>
+            modelBuilder.Entity("Domain.Entities.UserOperationClaim", b =>
                 {
-                    b.HasOne("Security.Entities.OperationClaim", "OperationClaim")
+                    b.HasOne("Domain.Entities.OperationClaim", "OperationClaim")
                         .WithMany()
-                        .HasForeignKey("OperationClaimId1")
+                        .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
+                        .WithMany("UserOperationClaims")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("OperationClaim");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.AppUser", b =>
+                {
+                    b.Navigation("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Domain.Entities.Property", b =>
