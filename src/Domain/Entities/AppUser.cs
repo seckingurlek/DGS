@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public abstract class AppUser : Entity
+    public  class AppUser : Entity
     {
         public string Email { get; set; }
         public string FirstName { get; set; }
@@ -25,12 +25,12 @@ namespace Domain.Entities
         public virtual ICollection<UserOperationClaim> UserOperationClaims { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
 
-        protected AppUser()
+        public AppUser()
         {
             UserOperationClaims = new HashSet<UserOperationClaim>();
             RefreshTokens = new HashSet<RefreshToken>();
         }
-        protected AppUser(Guid id, string email, string firstName, string lastName, string identityNumber, string phoneNumber, byte[] passwordSalt, byte[] passwordHash, bool emailConfirmed, bool status, string? address)
+        public AppUser(Guid id, string email, string firstName, string lastName, string identityNumber, string phoneNumber, byte[] passwordSalt, byte[] passwordHash, bool emailConfirmed, bool status, string? address)
         {
             Id = id;
             Email = email;

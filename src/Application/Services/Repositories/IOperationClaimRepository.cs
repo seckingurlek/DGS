@@ -1,5 +1,4 @@
 ﻿using Core.Persistence.Repositories;
-
 using Domain.SecurityEntities;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services.Repositories
 {
-    public interface IRefreshTokenRepository : IAsyncRepository<RefreshToken>, IRepository<RefreshToken>
+    public interface IOperationClaimRepository :IAsyncRepository<OperationClaim>, IRepository<OperationClaim>
     {
     }
 }

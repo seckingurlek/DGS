@@ -6,6 +6,14 @@ using Persistence;
 using Application;
 using Mailing;
 using Mailing.MailKitImplementations;
+using Core.Security;
+using Core.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Core.Security.Encryption;
+using Application.Features.Auths.AuthRules;
+using Application.Services.Repositories;
+using Core.Persistence.Repositories;
 
 namespace WebApi
 {
@@ -20,7 +28,9 @@ namespace WebApi
             builder.Services.AddControllers();
             builder.Services.AddScoped<IMailService, MailKitMailService>();
             builder.Services.AddScoped<MailManager>();
-
+            builder.Services.AddScoped<AuthBusinessRules>();
+            //builder.Services.AddScoped<IUserRepository,EfRepositoryBase<>();
+            builder.Services.AddSecurityServices();
             builder.Services.AddApplicationService();
             builder.Services.AddPersistenceServices(builder.Configuration);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -28,6 +38,21 @@ namespace WebApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddPersistenceServices(builder.Configuration);
 
+            TokenOptions? tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+                };
+            });
 
             var app = builder.Build();
 
@@ -38,6 +63,7 @@ namespace WebApi
                 app.UseSwaggerUI();
             }
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

@@ -13,7 +13,7 @@ namespace Core.Security.Hashing
         {
 
 
-            using(HMACSHA3_512 hmac = new HMACSHA3_512())
+            using(HMACSHA512 hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));

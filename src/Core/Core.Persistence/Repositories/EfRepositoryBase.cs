@@ -76,5 +76,18 @@ namespace Core.Persistence.Repositories
             Context.SaveChangesAsync(); 
             return entity;
         }
+
+        public async Task<IList<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+
+            if (include != null)
+                query = include(query);
+
+            if (predicate != null)
+                query = query.Where(predicate);
+
+            return await query.ToListAsync();
+        }
     }
 }

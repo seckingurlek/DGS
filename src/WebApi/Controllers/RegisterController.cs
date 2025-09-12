@@ -1,4 +1,6 @@
-﻿using Core.Security.Dtos;
+﻿using Application.Features.Auths.AuthCommands;
+using Application.Features.Auths.Dtos;
+using Core.Security.Dtos;
 using Domain.SecurityEntities;
 using Microsoft.AspNetCore.Mvc;
 

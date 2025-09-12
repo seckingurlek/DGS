@@ -25,7 +25,10 @@ namespace Persistence
             services.AddScoped<ILandlordRepository, LandlordRepository>();
             services.AddScoped<IPropertyRepository, PropertyRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
-            
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+            services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
