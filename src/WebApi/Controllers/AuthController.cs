@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : BaseController
+    public class RegisterController : BaseController
     {
 
         [HttpPost("Register")]
@@ -25,10 +25,22 @@ namespace WebApi.Controllers
             return Created("", result.AccessToken);
         }
 
-        private void SetRefreshTokenToCookie(RefreshToken refreshToken)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserForLoginDto userForLoginDto)
+        {
+            LoginCommand loginCommand = new LoginCommand()
+            {
+                UserForLoginDto = userForLoginDto,
+                IpAddress = GetIpAddress()
+            };
+            LoggedInDto result = await Mediator.Send(loginCommand);
+            return Ok(result);
+        }
+
+        private void SetRefreshTokenToCookie(string refreshToken)
         {
             CookieOptions cookieOptions = new CookieOptions() { HttpOnly = true, Expires = DateTime.Now.AddDays(7) };
-            Response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
     }
 }

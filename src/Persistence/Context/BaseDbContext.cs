@@ -181,7 +181,7 @@ namespace Persistence.Context
                 IsAccepted = null,
                 TenantIdentityNumber = "10987654321",
                 TenantEmail = "ayse@test.com",
-                TenantPhone = "05551234567",
+                TenantPhoneNumber = "05551234567",
                 RentalStartDate = DateTime.UtcNow.Date,
                 RentalEndDate = DateTime.UtcNow.AddMonths(1).Date,
                 RequestDate = DateTime.UtcNow

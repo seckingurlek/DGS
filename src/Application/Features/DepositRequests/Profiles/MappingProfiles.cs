@@ -1,5 +1,7 @@
 ﻿using Application.Features.DepositRequests.Commands.CreateDepositRequest;
 using Application.Features.DepositRequests.Dtos;
+using Application.Features.Property.Commands.CreateProperty;
+using Application.Features.Property.Dtos;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -20,6 +22,10 @@ namespace Application.Features.DepositRequests.Profiles
             CreateMap<DepositRequest, UpdateDepositRequestStatusDto>()
                 .ForMember(dest => dest.IsAccepted, opt => opt.MapFrom(src => src.IsAccepted))
                 .ReverseMap(); // DTO -> Entity
+            CreateMap<CreatePropertyDto, Domain.Entities.Property>().ReverseMap();
+            CreateMap<Domain.Entities.Property, CreatedPropertyDto>().ReverseMap();
+            CreateMap<DepositRequest, CreateDepositRequestDto>().ReverseMap();
+
         }
     }
 }

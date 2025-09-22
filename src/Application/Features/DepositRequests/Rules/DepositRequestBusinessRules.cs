@@ -10,16 +10,18 @@ namespace Application.Features.DepositRequests.Rules
 {
     public class DepositBusinessRules
     {
+        private readonly ITenantRepository _tenantRepository;
         private readonly IDepositRequestRepository _depositRequestRepository;
         private readonly ILandlordRepository _landlordRepository;
-        public DepositBusinessRules(IDepositRequestRepository depositRequestRepository, ILandlordRepository landlordRepository)
+        public DepositBusinessRules(IDepositRequestRepository depositRequestRepository, ILandlordRepository landlordRepository, ITenantRepository tenantRepository)
         {
             _depositRequestRepository = depositRequestRepository;
             _landlordRepository = landlordRepository;   
+            _tenantRepository = tenantRepository;
         }
         public async Task TenantEmailAndPhoneCanNotBeEmpty(string email, string phone)
         {
-            var result = await _depositRequestRepository.GetAsync(e => e.TenantEmail == email & e.TenantPhone == phone);
+            var result = await _tenantRepository.GetAsync(e => e.Email == email & e.PhoneNumber == phone);
             if (result == null)
             {
                 throw new BusinessExceptions("Tenant Email and phone number must be filled");

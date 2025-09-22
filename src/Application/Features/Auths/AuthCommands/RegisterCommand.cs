@@ -79,7 +79,7 @@ namespace Application.Features.Auths.AuthCommands
 
                 RegisteredDto registeredDto = new()
                 {
-                    RefreshToken = addedRefreshToken,
+                    RefreshToken = addedRefreshToken.Token,
                     AccessToken = createdAccessToken,
                 };
                 return registeredDto;

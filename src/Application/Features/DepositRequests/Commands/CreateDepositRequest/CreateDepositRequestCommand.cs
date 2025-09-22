@@ -30,14 +30,16 @@ namespace Application.Features.DepositRequests.Commands.CreateDepositRequest
 
             private readonly IDepositRequestRepository _depositRequestRepository;
             private readonly ILandlordRepository _landlordRepository;
+            private readonly ITenantRepository _tenantRepository;
             private readonly IMapper _mapper;
             private readonly DepositBusinessRules _depositBusinessRules;
             private readonly MailManager _mailManager;
 
-            public CreateDepositRequestCommandHandler(IDepositRequestRepository depositRequestRepository, ILandlordRepository landlordRepository, IMapper mapper, DepositBusinessRules depositBusinessRules, MailManager mailManager)
+            public CreateDepositRequestCommandHandler(IDepositRequestRepository depositRequestRepository, ILandlordRepository landlordRepository,ITenantRepository tenantRepository ,IMapper mapper, DepositBusinessRules depositBusinessRules, MailManager mailManager)
             {
                 _depositRequestRepository = depositRequestRepository;
                 _landlordRepository = landlordRepository;
+                _tenantRepository = tenantRepository;
                 _mapper = mapper;
                 _depositBusinessRules = depositBusinessRules;
                 _mailManager = mailManager; ;
@@ -51,8 +53,25 @@ namespace Application.Features.DepositRequests.Commands.CreateDepositRequest
                 await _depositBusinessRules.DepositAmountMustBeGreaterThanZero(request.DepositAmount);
                 await _depositBusinessRules.TenantEmailAndPhoneCanNotBeEmpty(request.TenantEmail, request.TenantPhoneNumber);
 
+                var landlord = await _landlordRepository.GetAsync(l => l.IdentityNumber == request.LandlordIdentityNumber);
+
+                if (landlord == null)
+                    throw new Exception("Geçersiz Landlord IdentityNumber");
+
+
+
+
+                // Tenant bul
+                var tenant = await _tenantRepository.GetAsync(t => t.IdentityNumber == request.TenantIdentityNumber);
+
+                if (tenant == null)
+                    throw new Exception("Geçersiz Tenant IdentityNumber");
+
+
 
                 DepositRequest mappedDepositRequest = _mapper.Map<DepositRequest>(request);
+                mappedDepositRequest.LandlordId = landlord.Id;
+                mappedDepositRequest.TenantId = tenant.Id;
                 mappedDepositRequest.Status = DepositRequestStatus.Pending;
 
                 DepositRequest createdDepositRequest = await _depositRequestRepository.AddAsync(mappedDepositRequest);

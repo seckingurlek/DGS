@@ -25,7 +25,7 @@ namespace Domain.Entities
         public virtual Tenant Tenant { get; set; }
         public Guid TenantId { get; set; }
         public string TenantEmail { get; set; }
-        public string TenantPhone { get; set; }
+        public string TenantPhoneNumber { get; set; }
 
         public decimal DepositAmount { get; set; }
 

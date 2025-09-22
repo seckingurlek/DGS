@@ -50,8 +50,8 @@ namespace Mailing.MailKitImplementations
             email.Body = bodyBuilder.ToMessageBody();
 
             using SmtpClient smtp = new();
-            smtp.Connect(_mailSettings.Server, _mailSettings.Port);
-            //smtp.Authenticate(_mailSettings.UserName, _mailSettings.Password);
+            smtp.Connect(_mailSettings.Server, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.UserName, _mailSettings.Password);
             smtp.Send(email);
             smtp.Disconnect(true);
         }

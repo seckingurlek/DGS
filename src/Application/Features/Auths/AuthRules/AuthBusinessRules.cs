@@ -22,6 +22,14 @@ namespace Application.Features.Auths.AuthRules
             if (user != null) throw new BusinessExceptions("Mail or Identity Number already exists.");
 
         }
-        
+
+        public async Task UserShouldBeExist(string identityNumber)
+        {
+            AppUser? user = await _userRepository.GetAsync(u=>u.IdentityNumber == identityNumber);
+            if (user == null)
+            {
+                throw new BusinessExceptions("Identity number couldn't found");
+            }
+        }
     }
 }
